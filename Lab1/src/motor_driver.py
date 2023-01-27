@@ -1,4 +1,5 @@
-class MotorDriver
+import utime
+class MotorDriver:
     """!
     This class implements a motor driver for an ME405 kit.
     """
@@ -18,12 +19,12 @@ class MotorDriver
                 to the motor driver should either be 3 or 5
         """
         print("Creating a motor driver")
-        self.en_pin = pyb.Pin (pyb.Pin.board.en_pin, pyb.Pin.OUT_PP)
-        self.in1pin = pyb.Pin (pyb.Pin.board.in1pin, pyb.Pin.OUT_PP)
-        self.in2pin = pyb.Pin (pyb.Pin.board.in2pin, pyb.Pin.OUT_PP)
+        self.en_pin = pyb.Pin (en_pin, pyb.Pin.OUT_PP)
+        self.in1pin = pyb.Pin (in1pin, pyb.Pin.OUT_PP)
+        self.in2pin = pyb.Pin (in2pin, pyb.Pin.OUT_PP)
         self.timer = pyb.Timer (timer,freq = 20000)
-        self.PWM_1 = timer.channel(1,pyb.Timer.PWM,pin = in1pin)
-        self.PWM_2 = timer.channel(2,pyb.Timer.PWM,pin = in2pin)
+        self.PWM_1 = self.timer.channel(1,pyb.Timer.PWM,pin = in1pin)
+        self.PWM_2 = self.timer.channel(2,pyb.Timer.PWM,pin = in2pin)
         self.en_pin.high()
         self.PWM_1.pulse_width_percent(0)
         self.PWM_2.pulse_width_percent(0)
@@ -40,16 +41,22 @@ class MotorDriver
         """
         print("Setting duty cycle to {level}")
         if level >= 0:
-            self.PWM.pulse_width_percent(0)
-            self.PWM.pulse_width_percent(level)
-        else
-            self.PWM.pulse_width_percent(level)
-            self.PWM.pulse_width_percent(0)
+            self.PWM_1.pulse_width_percent(0)
+            self.PWM_2.pulse_width_percent(level)
+        else:
+            self.PWM_1.pulse_width_percent(abs(level))
+            self.PWM_2.pulse_width_percent(0)
             
-if __name__ == '__main__':
-    
-    moe = MotorDriver (PA10,PB4,PB5,3)
+def main():
+    moe = MotorDriver (pyb.Pin.board.PA10,pyb.Pin.board.PB4,pyb.Pin.board.PB5,3)
     moe.set_duty_cycle (42)
     utime.sleep(2)
     moe.set_duty_cycle (-42)
+    utime.sleep(2)
+    moe.set_duty_cycle (0)
         
+            
+if __name__ == '__main__':
+    main()
+    
+    
