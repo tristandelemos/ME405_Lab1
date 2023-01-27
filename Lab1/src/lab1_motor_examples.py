@@ -19,13 +19,13 @@ IN1A = tim3.channel(1,pyb.Timer.PWM, pin = pinPB4)				# Set up channels IN1A/IN2
 IN2A = tim3.channel(2,pyb.Timer.PWM, pin = pinPB5)
 
 
-pinPA10.high()													# enable motor by driving enable pin high
-IN1A.pulse_width_percent(0)										# set channel IN1A to always be high
-IN2A.pulse_width_percent(0)										# set channel 1N2A to some duty cycle
+#pinPA10.high()													# enable motor by driving enable pin high
+#IN1A.pulse_width_percent(0)										# set channel IN1A to always be high
+#IN2A.pulse_width_percent(0)										# set channel 1N2A to some duty cycle
 while True:
-    pass
-    #print(tim8.counter())
-    #utime.sleep_ms(500)
+    
+    print(tim4.counter())
+    utime.sleep_ms(500)
     
     #utime.sleep_ms(1000)
 #tim4 = pyb.Timer(4, freq = 20000)
