@@ -10,6 +10,8 @@ def readEncoders():
     ch1 = tim4.channel(4, pyb.Timer.ENC_AB, pin=pinb6)
     ch2 = tim4.channel(4, pyb.Timer.ENC_AB, pin=pinb7)
 
+    # test
+
 
 
 
